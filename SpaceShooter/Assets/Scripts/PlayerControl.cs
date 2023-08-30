@@ -7,7 +7,10 @@ public class PlayerControl : MonoBehaviour
     private Rigidbody2D myRb;
     [SerializeField] private float vel = 5f;
     [SerializeField] private GameObject bullet;
-    // Start is called before the first frame update
+    [SerializeField] private Transform playerBulletPosition;
+    private int health = 5;
+    [SerializeField] private GameObject explosion;
+
     void Start()
     {
         myRb = GetComponent<Rigidbody2D>();;
@@ -22,14 +25,28 @@ public class PlayerControl : MonoBehaviour
 
         myRb.velocity = myVel;
         Shoot();
+
     }
 
     void Shoot()
     {
         if (Input.GetButtonDown("Fire1"))
         {
-            Instantiate(bullet, transform.position, transform.rotation);
+            Instantiate(bullet, playerBulletPosition.position, transform.rotation);
         }
 
+    }
+
+    public void TakeDamage(int damage)
+    {
+        health -= damage;
+        Debug.Log("AAAAAAAAAA QUE DOR!!" + health);
+        
+        //If I have no health I will die 
+        if (health <= 0)
+        {
+            Destroy(gameObject);
+            Instantiate(explosion, transform.position, transform.rotation);
+        }
     }
 }

@@ -7,6 +7,9 @@ public class EnemyControl : MonoBehaviour
     [SerializeField] private Rigidbody2D myRB;
     [SerializeField] private float vel = 3f;
     [SerializeField] private GameObject enemyBullet;
+    [SerializeField] private Transform bulletPosition;
+    [SerializeField] private GameObject explosion;
+    private int health = 1;
     private float timeBullet = 1f;
     
     void Start()
@@ -17,21 +20,40 @@ public class EnemyControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        if(timeBullet <= 0)
+        //Checking if my sprite renderer is visible 
+        //Getting information from my children 
+        bool isVisible = GetComponentInChildren<SpriteRenderer>().isVisible;
+        if(isVisible)
         {
-            //Instantiate Bullet
-            Instantiate(enemyBullet, transform.position, transform.rotation);
-            timeBullet = Random.Range(1f, 1.5f); ;
+            Shoot();
         }
-        else 
+
+
+    }
+
+    //Method to receive the quantity of damage the enemy needs to take
+    public void TakeDamage(int damage)
+    {
+        health -= damage;
+        //If the enemy have no health he will die 
+        if (health <= 0)
         {
-            timeBullet -= Time.deltaTime;
+            Destroy(gameObject);
+            Instantiate(explosion, transform.position, transform.rotation);
         }
     }
 
-    void Shoot()
-    { 
-        
+    private void Shoot()
+    {
+        if (timeBullet <= 0)
+        {
+            //Instantiate Bullet
+            Instantiate(enemyBullet, bulletPosition.position, transform.rotation);
+            timeBullet = Random.Range(1f, 1.5f);
+        }
+        else
+        {
+            timeBullet -= Time.deltaTime;
+        }
     }
 }
