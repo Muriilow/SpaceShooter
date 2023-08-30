@@ -4,14 +4,10 @@ using UnityEngine;
 
 public class BulletControl : MonoBehaviour
 {
-    [SerializeField] private float vel = 7f;
     [SerializeField] private GameObject impactBullet;
-    private Rigidbody2D myRb;
     // Start is called before the first frame update
     void Start()
     {
-        myRb = GetComponent<Rigidbody2D>();
-        myRb.velocity = new Vector2(0, 1) * vel;
     }
 
     // Update is called once per frame
@@ -24,7 +20,7 @@ public class BulletControl : MonoBehaviour
         //Only work if the bullet collide with the enemy
         if(collision.CompareTag("Enemy"))
         {
-            collision.GetComponent<EnemyControl>().TakeDamage(1);
+            collision.GetComponent<Enemy>().TakeDamage(1);
         }
         //Only work if the bullet collide with the player
         if (collision.CompareTag("Player"))
