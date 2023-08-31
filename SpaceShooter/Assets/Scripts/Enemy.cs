@@ -31,4 +31,11 @@ public class Enemy : MonoBehaviour
             Instantiate(explosion, transform.position, transform.rotation);
         }
     }
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if(other.CompareTag("EnemyDestroyer"))
+        {
+            Destroy(gameObject);
+        }
+    }
 }

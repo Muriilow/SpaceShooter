@@ -10,6 +10,8 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] private Transform playerBulletPosition;
     [SerializeField] private GameObject explosion;
     [SerializeField] private float bulletSpeed = 7f;
+    private float vertical;
+    private float horizontal;
     private int health = 5;
 
 
@@ -21,15 +23,18 @@ public class PlayerControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Fly();
+        vertical = Input.GetAxis("Vertical");
+        horizontal = Input.GetAxis("Horizontal");
         Shoot();
 
     }
 
+    private void FixedUpdate()
+    {
+        Fly();
+    }
     private void Fly()
     {
-        float vertical = Input.GetAxis("Vertical");
-        float horizontal = Input.GetAxis("Horizontal");
         Vector2 myVel = new Vector2(horizontal, vertical).normalized * vel;
         myRb.velocity = myVel;
     }
