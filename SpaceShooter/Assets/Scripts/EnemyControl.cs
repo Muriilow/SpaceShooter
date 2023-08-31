@@ -10,7 +10,7 @@ public class EnemyControl : Enemy
     
     void Start()
     {
-        myRB.velocity = new Vector2 (0, -1) * vel;
+        myRB.velocity = new Vector2 (0, 1) * vel;
     }
 
     // Update is called once per frame

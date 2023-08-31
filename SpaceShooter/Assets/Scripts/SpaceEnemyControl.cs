@@ -40,12 +40,14 @@ public class SpaceEnemyControl : Enemy
         bool isVisible = GetComponentInChildren<SpriteRenderer>().isVisible;
         if (isVisible)
         {
-            if (timeBullet <= 0)
+            var player = GameObject.FindGameObjectWithTag("Player");
+
+            if (timeBullet <= 0 && player)
             {
                 //Instantiate Bullet
                 GameObject bullet = Instantiate(myBullet, transform.position, transform.rotation);
                 timeBullet = Random.Range(2f, 4f);
-                var player = GameObject.FindGameObjectWithTag("Player");
+
                 Vector2 direction = player.transform.position - bullet.transform.position;
                 //Normalize speed
                 direction.Normalize();
