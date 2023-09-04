@@ -8,6 +8,8 @@ public class EnemyGenerator : MonoBehaviour
     [SerializeField] private int level = 0;
     [SerializeField] private float waitTime = 5f;
     [SerializeField] private int score = 0;
+    //Creating a lot of enemies in one time 
+    [SerializeField] private int quantityEnemies = 0;
     private int baseScore = 50;
     private float waitEnemies = 0f;
 
@@ -25,12 +27,13 @@ public class EnemyGenerator : MonoBehaviour
 
     private void CreateEnemies()
     {
-        waitEnemies -= Time.deltaTime;
-        if (waitEnemies <= 0)
+        //Can the time decrease?
+        if(waitEnemies >= 0 && quantityEnemies <= 0 ) waitEnemies -= Time.deltaTime;
+        //Can I create the enemies?
+        if (waitEnemies <= 0 && quantityEnemies <= 0)
         {
             int quantity = level * 4;
-            //Creating a lot of enemies in one time 
-            int quantityEnemies = 0;
+            //Create the amount necessary 
             while (quantityEnemies < quantity)
             {
                 GameObject enemyCreated;
@@ -54,6 +57,7 @@ public class EnemyGenerator : MonoBehaviour
             }
         }
     }
+
     public void GetPoints(int score)
     {
         this.score += score;
@@ -63,5 +67,10 @@ public class EnemyGenerator : MonoBehaviour
         {
             level++;
         }
+    }
+
+    public void DecreaseAmountEnemies()
+    {
+        quantityEnemies--;
     }
 }

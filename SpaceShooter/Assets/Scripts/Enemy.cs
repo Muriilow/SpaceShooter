@@ -29,9 +29,11 @@ public class Enemy : MonoBehaviour
         if (health <= 0)
         {
             Die();
-            //Give points
-            var gameController = GameObject.FindGameObjectWithTag("GameController");
-            gameController.GetComponent<EnemyGenerator>().GetPoints(points);
+            //Get the game controller script and then increase the points
+            var gameController = FindObjectOfType<EnemyGenerator>();
+            gameController.DecreaseAmountEnemies();
+            gameController.GetPoints(points);
+
         }
     }
 
@@ -42,6 +44,8 @@ public class Enemy : MonoBehaviour
         {
             Destroy(gameObject);
             Instantiate(explosion, transform.position, transform.rotation);
+            var gameController = FindObjectOfType<EnemyGenerator>();
+            gameController.DecreaseAmountEnemies();
         }
     }
 
@@ -50,6 +54,9 @@ public class Enemy : MonoBehaviour
     {
         if(other.gameObject.CompareTag("Player")) { Die(); }
         other.gameObject.GetComponent<PlayerControl>().TakeDamage(1);
+
+        var gameController = FindObjectOfType<EnemyGenerator>();
+        gameController.DecreaseAmountEnemies();
     }
 
     //Die

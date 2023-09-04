@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class PlayerControl : MonoBehaviour
 {
@@ -10,9 +11,11 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] private Transform playerBulletPosition;
     [SerializeField] private GameObject explosion;
     [SerializeField] private float bulletSpeed = 7f;
+    [SerializeField] private float xLimit;
+    [SerializeField] private float yLimit;
     private float vertical;
     private float horizontal;
-    private int health = 5;
+    [SerializeField] private int health = 5;
 
 
     void Start()
@@ -26,17 +29,21 @@ public class PlayerControl : MonoBehaviour
         vertical = Input.GetAxis("Vertical");
         horizontal = Input.GetAxis("Horizontal");
         Shoot();
-
-    }
-
-    private void FixedUpdate()
-    {
         Fly();
+
     }
+
     private void Fly()
     {
         Vector2 myVel = new Vector2(horizontal, vertical).normalized * vel;
         myRb.velocity = myVel;
+
+        //limiting his position on the screen
+        float myX = Mathf.Clamp(transform.position.x, -xLimit, xLimit);
+        float myY = Mathf.Clamp(transform.position.y, -yLimit, yLimit);
+
+        //My position
+        transform.position = new Vector3(myX, myY, transform.position.z);
     }
 
     private void Shoot()
